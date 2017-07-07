@@ -1,26 +1,24 @@
 package com.potodds.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.sql.DataSource;
 
 public class MySQLDB {
-	private final String dbURL = "jdbc:mysql://qnap:3306/trading";
-	private final String dbUser = "lap";
-	private final String dbPassword = "admin";
+	DataSource datasource;
 	
-	public void run() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println("Where is your MySQL JDBC Driver?");
-			e.printStackTrace();
-			return;
-		}
+	public DataSource getDatasource() {
+		return datasource;
+	}
 
+	public void setDatasource(DataSource datasource) {
+		this.datasource = datasource;
+	}
+
+	public void run() {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection(dbURL, dbUser, dbPassword);
+			connection = datasource.getConnection();
 		} catch (SQLException e) {
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
